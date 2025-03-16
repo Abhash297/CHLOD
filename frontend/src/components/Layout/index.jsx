@@ -41,7 +41,7 @@ import ViewProfile from './templates/viewprofile';
 import ViewForm from './templates/viewform';
 import ViewProfileOrForm from './templates/viewprofile';
 
-import React from "react";
+
 import { useTranslation } from "react-i18next";
 import "./i18n"; // Import translation config
 

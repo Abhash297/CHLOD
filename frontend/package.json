@@ -36,7 +36,7 @@
     "build": "vite build --base=/",
     "test": "vitest",
     "preview": "vite preview",
-       "sass": "sass ./src/theme/index.scss ./src/theme/index.css"
+    "sass": "sass ./src/theme/index.scss ./src/theme/index.css"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -59,7 +59,7 @@
     "@vitejs/plugin-react": "^4.2.0",
     "reactstrap": "^9.2.1",
     "sass": "^1.69.5",
-    "vite": "^4.4.9",
+    "vite": "^4.5.9",
     "vitest": "^0.34.2"
   }
 }

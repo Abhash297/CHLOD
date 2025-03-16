@@ -9,7 +9,7 @@ import './Layout.css';
 import { UserOutlined } from '@ant-design/icons';
 import { Avatar, Space, Button } from 'antd';
 
-import React from 'react';
+
 import { createRoot } from "react-dom/client";
 import { Navigate, createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { QueryClientProvider } from '@tanstack/react-query';

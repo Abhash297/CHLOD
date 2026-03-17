@@ -1,42 +1,62 @@
 'use client';
 
 import * as React from 'react';
+import Link from 'next/link';
+import Image from "next/image";
+import { useTranslations } from 'next-intl';
+
 import {
   IconCamera,
   IconChartBar,
-  IconDashboard,
-  IconDatabase,
+  IconLayoutDashboard,
+  IconTrophy,
+  IconPlus,
+  IconBell,
+  IconUsersGroup,
+  IconBuildingCommunity,
+  IconUser,
+  IconMapPin,
+  IconCalendarEvent,
+  IconClock,
+  IconFlame,
   IconFileAi,
+  IconInvoice,
   IconFileDescription,
-  IconFileWord,
-  IconFolder,
-  IconHelp,
-  IconInnerShadowTop,
-  IconListDetails,
-  IconReport,
-  IconSearch,
-  IconSettings,
   IconUsers,
-  IconBook,
   IconBuilding,
-  IconGlobe,
-  IconMap,
-  IconMusic,
-  IconHistory,
+  IconMoodSmile,
+  IconHomeCog,
+  IconBuildingArch,
+  IconCandle,
+  IconConfetti,
+  IconPalette,
+  IconColumns,
+  IconShield,
+  IconScale,
+  IconAlertTriangle,
+  IconDashboard,
+  IconGraph,
+  IconQrcode,
+  IconMedal,
+  IconInfoCircle,
 } from '@tabler/icons-react';
-import AuthSection from '@/components/AuthButtons';
-import { NavDocuments } from '@/components/nav-documents';
+
+// import { useSidebar } from '@/components/ui/sidebar';
+// import { NavDocuments } from '@/components/nav-documents';
 import { NavMain } from '@/components/nav-main';
-import { NavSecondary } from '@/components/nav-secondary';
-import { NavUser } from '@/components/nav-user';
+// import { NavSecondary } from '@/components/nav-secondary';
+// import { NavUser } from '@/components/nav-user';
 import {
   Sidebar,
   SidebarContent,
-  SidebarFooter,
+  // SidebarFooter,
   SidebarHeader,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  SidebarTrigger,
+  useSidebar,
+  SidebarGroupLabel,
 } from '@/components/ui/sidebar';
 
 const data = {
@@ -45,38 +65,38 @@ const data = {
     email: 'nabin.oli@cair-nepal.org',
     avatar: '/avatars/shadcn.jpg',
   },
-  navMain: [
-    {
-      title: 'Dashboard',
-      url: '/dashboard',
-      icon: IconDashboard,
-    },
-    {
-      title: 'Leaderboard',
-      url: '/dashboard/leaderboard',
-      icon: IconListDetails,
-    },
-    {
-      title: 'Form',
-      url: '/dashboard/contribute',
-      icon: IconChartBar,
-    },
-    {
-      title: 'Notification',
-      url: '/dashboard/notification',
-      icon: IconChartBar,
-    },
-    {
-      title: 'team',
-      url: '/dashboard/team',
-      icon: IconUsers,
-    },
-    // {
-    //   title: "Team",
-    //   url: "#",
-    //   icon: IconUsers,
-    // },
-  ],
+  // navMain: [
+  //   {
+  //     title: 'Dashboard',
+  //     url: '/dashboard',
+  //     icon: IconLayoutDashboard,
+  //   },
+  //   {
+  //     title: 'Leaderboard',
+  //     url: '/dashboard/leaderboard',
+  //     icon: IconTrophy,
+  //   },
+  //   {
+  //     title: 'Contribute',
+  //     url: '/dashboard/contribute',
+  //     icon: IconPlus,
+  //   },
+  //   {
+  //     title: 'Notification',
+  //     url: '/dashboard/notification',
+  //     icon: IconBell,
+  //   },
+  //   {
+  //     title: 'team',
+  //     url: '/dashboard/team',
+  //     icon: IconUsersGroup,
+  //   },
+  //   // {
+  //   //   title: "Team",
+  //   //   url: "#",
+  //   //   icon: IconUsers,
+  //   // },
+  // ],
   navClouds: [
     {
       title: 'Capture',
@@ -162,65 +182,123 @@ const data = {
 
   navKnowledgebase: [
     {
-      name: 'Monuments',
-      url: '/dashboard/knowledge/monuments',
-      icon: IconBuilding,
+      title: 'Cultural Entity',
+      url: '/dashboard/knowledge/entity',
+      icon: IconBuildingCommunity,
     },
     {
-      name: 'Artifacts',
-      url: '/dashboard/knowledge/artifacts',
-      icon: IconFolder,
+      title: 'Person',
+      url: '/dashboard/knowledge/person',
+      icon: IconUser,
     },
     {
-      name: 'Festivals & Rituals',
-      url: '/dashboard/knowledge/festivals',
-      icon: IconHistory,
+      title: 'Location',
+      url: '/dashboard/knowledge/location',
+      icon: IconMapPin,
+    },
+    // {
+    //   title: 'Object Attributes',
+    //   url: '/dashboard/knowledge/performing-arts',
+    //   icon: IconMusic,
+    // },
+    {
+      title: 'Event',
+      url: '/dashboard/knowledge/event',
+      icon: IconCalendarEvent,
     },
     {
-      name: 'Performing Arts',
-      url: '/dashboard/knowledge/performing-arts',
-      icon: IconMusic,
+      title: 'Historical Period',
+      url: '/dashboard/knowledge/period',
+      icon: IconClock,
+    },
+    { 
+      title: 'Tradition / Practice', 
+      url: '/dashboard/knowledge/tradition', 
+      icon: IconFlame 
     },
     {
-      name: 'Languages & Literature',
-      url: '/dashboard/knowledge/literature',
-      icon: IconBook,
+      title: 'Source',
+      url: '/dashboard/knowledge/source',
+      icon: IconInvoice,
     },
     {
-      name: 'People & Lineages',
-      url: '/dashboard/knowledge/people',
-      icon: IconUsers,
+      title: 'Deity',
+      url: '/dashboard/knowledge/deity',
+      icon: IconMoodSmile,
     },
-    { name: 'Places', url: '/dashboard/knowledge/places', icon: IconMap },
     {
-      name: 'Intangible Heritage',
-      url: '/dashboard/knowledge/intangible',
-      icon: IconGlobe,
+      title: 'Guthi',
+      url: '/dashboard/knowledge/guthi',
+      icon: IconHomeCog,
+    },
+    {
+      title: 'Structure',
+      url: '/dashboard/knowledge/structure',
+      icon: IconBuildingArch,
+    },
+    {
+      title: 'Ritual',
+      url: '/dashboard/knowledge/ritual',
+      icon: IconCandle,
+    },
+    {
+      title: 'Festival',
+      url: '/dashboard/knowledge/festival',
+      icon: IconConfetti,
+    },
+    {
+      title: 'Iconography',
+      url: '/dashboard/knowledge/iconography',
+      icon: IconPalette,
+    },
+    {
+      title: 'Monument',
+      url: '/dashboard/knowledge/monument',
+      icon: IconColumns,
     },
   ],
 
   navCuration: [
     {
-      name: 'Contributions Queue',
+      title: 'Reviewer Dashboard',
+      url: '/dashboard/curation/dashboard',
+      icon: IconDashboard,
+    },
+    {
+      title: 'Review Queue',
+      url: '/dashboard/curation/review',
+      icon: IconShield,
+    },
+    {
+      title: 'Conflicts',
+      url: '/dashboard/curation/conflicts',
+      icon: IconScale,
+    },
+    {
+      title: 'Contributions Queue',
       url: '/dashboard/curation/contributions',
       icon: IconFileDescription,
     },
-    // { name: "Verification Queue", url: "/curation/verification", icon: IconReport },
     {
-      name: 'Activity Log',
+      title: 'Activity Log',
       url: '/dashboard/curation/activity',
       icon: IconChartBar,
+    },
+    {
+      title: 'QR Contributions',
+      url: '/dashboard/curation/qr-contributions',
+      icon: IconQrcode,
     },
   ],
 
   navCommunity: [
     {
-      name: 'Contributors',
+      title: 'Contributors',
       url: '/dashboard/community/contributors',
       icon: IconUsers,
     },
     {
-      name: 'Organizations',
+      title: 'Organizations',
       url: '/dashboard/community/organizations',
       icon: IconBuilding,
     },
@@ -241,34 +319,82 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { state } = useSidebar();
+  const isCollapsed = state === "collapsed";
+  const t = useTranslations('nav');
+
+
   return (
-    <Sidebar collapsible="offcanvas" {...props}>
+    <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton
-              asChild
-              className="data-[slot=sidebar-menu-button]:!p-1.5"
-            >
-              <a href="/dashboard">
-                {/* <IconInnerShadowTop className="!size-10" /> */}
-                <span className="text-base font-semibold">HeritageGraph</span>
-              </a>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
+            
+<SidebarMenuButton
+  asChild
+  className="data-[slot=sidebar-menu-button]:!p-1.5"
+>
+  <div className="flex items-center justify-between w-full h-full">
+    <Link href="/dashboard" className="flex items-center">
+          <Image
+            src={isCollapsed ? "/logo1.svg" : "/logo.svg"}
+            alt="logo"
+            width={isCollapsed? 40: 150}
+            height={isCollapsed? 40: 150}
+          />
+      {/* <span className="">HeritageGraph</span> */}
+    </Link>
+  </div>
+
+</SidebarMenuButton>
+
+
+      </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
-        {/* <NavDocuments items={data.data} /> */}
-        <NavDocuments items={data.navKnowledgebase} />
-        <NavDocuments items={data.navCuration} />
-        <NavDocuments items={data.navCommunity} />
-        {/* <NavDocuments items={data.navResources} /> */}
-        {/* <NavDocuments items={data.navAbout} /> */}
-        <NavSecondary items={data.navSecondary} className="mt-auto" />
+        {/* Quick-access items previously in the top header */}
+        <NavMain navtitle={t('navigation')} items={[
+          { title: t('dashboard'), url: '/dashboard', icon: IconLayoutDashboard },
+          { title: t('graphVisualization'), url: '/dashboard/graphview', icon: IconGraph },
+          { title: t('contribute'), url: '/dashboard/contribute', icon: IconPlus },
+          { title: t('progression'), url: '/dashboard/progression', icon: IconMedal },
+          { title: t('leaderboard'), url: '/dashboard/leaderboard', icon: IconTrophy },
+          { title: t('notifications'), url: '/dashboard/notification', icon: IconBell },
+          { title: t('team'), url: '/dashboard/team', icon: IconUsersGroup },
+          { title: t('about'), url: '/dashboard/about', icon: IconInfoCircle },
+        ]} />
+
+        <NavMain navtitle={t('knowledgebase')} items={[
+          { title: t('culturalEntity'), url: '/dashboard/knowledge/entity', icon: IconBuildingCommunity },
+          { title: t('person'), url: '/dashboard/knowledge/person', icon: IconUser },
+          { title: t('location'), url: '/dashboard/knowledge/location', icon: IconMapPin },
+          { title: t('event'), url: '/dashboard/knowledge/event', icon: IconCalendarEvent },
+          { title: t('historicalPeriod'), url: '/dashboard/knowledge/period', icon: IconClock },
+          { title: t('traditionPractice'), url: '/dashboard/knowledge/tradition', icon: IconFlame },
+          { title: t('source'), url: '/dashboard/knowledge/source', icon: IconInvoice },
+          { title: t('deity'), url: '/dashboard/knowledge/deity', icon: IconMoodSmile },
+          { title: t('guthi'), url: '/dashboard/knowledge/guthi', icon: IconHomeCog },
+          { title: t('structure'), url: '/dashboard/knowledge/structure', icon: IconBuildingArch },
+          { title: t('ritual'), url: '/dashboard/knowledge/ritual', icon: IconCandle },
+          { title: t('festival'), url: '/dashboard/knowledge/festival', icon: IconConfetti },
+          { title: t('iconography'), url: '/dashboard/knowledge/iconography', icon: IconPalette },
+          { title: t('monument'), url: '/dashboard/knowledge/monument', icon: IconColumns },
+        ]} />
+        <NavMain navtitle={t('curation')} items={[
+          { title: t('reviewerDashboard'), url: '/dashboard/curation/dashboard', icon: IconDashboard },
+          { title: t('reviewQueue'), url: '/dashboard/curation/review', icon: IconShield },
+          { title: t('conflicts'), url: '/dashboard/curation/conflicts', icon: IconScale },
+          { title: t('contributionsQueue'), url: '/dashboard/curation/contributions', icon: IconFileDescription },
+          { title: t('activityLog'), url: '/dashboard/curation/activity', icon: IconChartBar },
+          { title: t('qrContributions'), url: '/dashboard/curation/qr-contributions', icon: IconQrcode },
+        ]} />
+        <NavMain navtitle={t('community')} items={[
+          { title: t('contributors'), url: '/dashboard/community/contributors', icon: IconUsers },
+          { title: t('organizations'), url: '/dashboard/community/organizations', icon: IconBuilding },
+        ]} />
       </SidebarContent>
-      <AuthSection />
+      {/* <AuthSection /> */}
     </Sidebar>
   );
 }

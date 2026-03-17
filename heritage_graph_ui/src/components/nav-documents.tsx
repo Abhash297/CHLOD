@@ -2,17 +2,17 @@
 
 import {
   IconDots,
-  IconFolder,
-  IconShare3,
-  IconTrash,
+  // IconFolder,
+  // IconShare3,
+  // IconTrash,
   type Icon,
 } from '@tabler/icons-react';
 
 import {
   DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
+  // DropdownMenuContent,
+  // DropdownMenuItem,
+  // DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import {
@@ -22,7 +22,7 @@ import {
   SidebarMenuAction,
   SidebarMenuButton,
   SidebarMenuItem,
-  useSidebar,
+  // useSidebar,
 } from '@/components/ui/sidebar';
 
 export function NavDocuments({
@@ -34,11 +34,11 @@ export function NavDocuments({
     icon: Icon;
   }[];
 }) {
-  const { isMobile } = useSidebar();
+  // const { isMobile } = useSidebar();
 
   return (
     <SidebarGroup className="group-data-[collapsible=icon]:hidden">
-      <SidebarGroupLabel>Documents</SidebarGroupLabel>
+      <SidebarGroupLabel>Options</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => (
           <SidebarMenuItem key={item.name}>
@@ -58,12 +58,12 @@ export function NavDocuments({
                   <span className="sr-only">More</span>
                 </SidebarMenuAction>
               </DropdownMenuTrigger>
-              <DropdownMenuContent
+              {/* <DropdownMenuContent
                 className="w-24 rounded-lg"
                 side={isMobile ? 'bottom' : 'right'}
                 align={isMobile ? 'end' : 'start'}
-              >
-                <DropdownMenuItem>
+              > */}
+                {/* <DropdownMenuItem>
                   <IconFolder />
                   <span>Open</span>
                 </DropdownMenuItem>
@@ -75,16 +75,16 @@ export function NavDocuments({
                 <DropdownMenuItem variant="destructive">
                   <IconTrash />
                   <span>Delete</span>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
+                </DropdownMenuItem> */}
+              {/* </DropdownMenuContent> */}
             </DropdownMenu>
           </SidebarMenuItem>
         ))}
         <SidebarMenuItem>
-          <SidebarMenuButton className="text-sidebar-foreground/70">
+          {/* <SidebarMenuButton className="text-sidebar-foreground/70">
             <IconDots className="text-sidebar-foreground/70" />
             <span>More</span>
-          </SidebarMenuButton>
+          </SidebarMenuButton> */}
         </SidebarMenuItem>
       </SidebarMenu>
     </SidebarGroup>

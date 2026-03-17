@@ -1,12 +1,59 @@
-# Ignore everything in the docs directory
-/docs/*
-# But do not ignore the docs directory itself
-!/docs/
+# ================================================================
+# HeritageGraph .gitignore
+# ================================================================
 
-# Optional: Do not ignore a placeholder file if needed
-!/docs/.gitkeep
-
+# ==================== Python ====================
+venv/
+.venv/
+myenv/
+.myenv/
 .myvenv/
 .myvenv/*
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
 
-node_modules
+# ==================== Node.js ====================
+node_modules/
+**/.next/**
+.turbo/
+*.tsbuildinfo
+
+# ==================== Environment ====================
+*.env*
+!.env.example
+
+# ==================== Logs ====================
+data/*.log
+*.log
+
+# ==================== Data ====================
+data/
+
+# ==================== Docker ====================
+infra/traefik/acme/acme.json
+backups/
+
+# ==================== IDE ====================
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ==================== OS ====================
+.DS_Store
+Thumbs.db
+
+# ==================== Documentation ====================
+/docs/*
+!/docs/
+!/docs/.gitkeep
+!/docs/api/**
+!/docs/static/**
+!/docs/en/**

@@ -11,7 +11,10 @@ environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
 INSTALLED_APPS = [
     "rest_framework",
-    "heritage_graph.apps.heritage_data",
+    "apps.heritage_data",
+    "apps.cidoc_data",
+
+    "django_prometheus",
     # "djoser",
     # "rest_framework_simplejwt.token_blacklist",
     "corsheaders",
@@ -30,14 +33,25 @@ MIDDLEWARE = [
     "django.middleware.common.CommonMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+
+    # prometheus
+    "django_prometheus.middleware.PrometheusBeforeMiddleware",
+    "django_prometheus.middleware.PrometheusAfterMiddleware",
 ]
 
-ROOT_URLCONF = "heritage_graph.urls"
+ROOT_URLCONF = "urls"
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://heritagegraph.xyz',
+    'https://api.heritagegraph.xyz',
+    'https://www.heritagegraph.xyz',
+]
 
 TEMPLATES = [
     {
@@ -55,7 +69,7 @@ TEMPLATES = [
     }
 ]
 
-WSGI_APPLICATION = "heritage_graph.wsgi.application"
+WSGI_APPLICATION = "wsgi.application"
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -68,22 +82,31 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
-LANGUAGE_CODE = "en-us"
-TIME_ZONE = "UTC"
+# ── Internationalization ─────────────────────────────────────────────────────
+LANGUAGE_CODE = "en"
+TIME_ZONE = "Asia/Kathmandu"
 USE_I18N = True
+USE_L10N = True
 USE_TZ = True
+
+LANGUAGES = [
+    ("en", "English"),
+    ("ne", "नेपाली"),
+]
+
+LOCALE_PATHS = [
+    BASE_DIR / "locale",
+]
 
 STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 REST_FRAMEWORK = {
-    "DEFAULT_AUTHENTICATION_CLASSES": (
-        # "heritage_graph.apps.heritage_data.clerk_auth.JWTAuthenticationMiddleware",
-        "heritage_graph.apps.heritage_data.authentication.KeycloakJWTAuthentication",
-        # "rest_framework_simplejwt.authentication.JWTAuthentication",
-    ),
+    # Auth classes are set per-environment in development.py / production.py
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
+    "PAGE_SIZE": 20,
 }
 
 SPECTACULAR_SETTINGS = {
@@ -116,6 +139,8 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
     "http://localhost",
+    "http://app.localhost",
+    "http://heritagegraph.olinabin.com.np"
 ]
 
 GRAPH_MODELS = {

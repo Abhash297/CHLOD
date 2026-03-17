@@ -1,72 +1,153 @@
-from django.urls import path
-
+from django.urls import path, include
+from rest_framework.routers import DefaultRouter
 from . import views
+from .i18n_views import locale_info, convert_date
+
+# Create router
+router = DefaultRouter()
+router.register(r'cultural-entities', views.CulturalEntityViewSet, basename='culturalentity')
+router.register(r'contribution-queue', views.ContributionQueueViewSet, basename='contributionqueue')
+router.register(r'revisions', views.RevisionViewSet, basename='revision')
+router.register(r'activities', views.ActivityViewSet, basename='activity')
+
+# Review system routes
+router.register(r'review-queue', views.ReviewQueueViewSet, basename='reviewqueue')
+router.register(r'review-flags', views.ReviewFlagViewSet, basename='reviewflag')
+router.register(r'reviewer-roles', views.ReviewerRoleViewSet, basename='reviewerrole')
+
+# Organizations
+router.register(r'organizations', views.OrganizationViewSet, basename='organization')
+
+# New: Notifications, Reactions, Forks, Shares
+router.register(r'notifications', views.NotificationViewSet, basename='notification')
+router.register(r'reactions', views.ReactionViewSet, basename='reaction')
+router.register(r'forks', views.ForkViewSet, basename='fork')
+router.register(r'shares', views.ShareViewSet, basename='share')
+
+# Public contributions (QR code scans)
+router.register(r'public-contributions', views.PublicContributionViewSet, basename='publiccontribution')
+
+# router.register(r'submissions', views.SubmissionViewSet, basename='submission')
+# router.register(r'comments', views.CommentViewSet, basename='comment')
 
 urlpatterns = [
-    path("submissions/", views.SubmissionListView.as_view(), name="submission-list"),
+    # Include all ViewSet URLs under /api/
+    path('api/', include(router.urls)),
+
+    # Review workspace and decision endpoints
     path(
-        "submissions/<str:submission_id>/",
+        'api/review-workspace/<uuid:entity_id>/',
+        views.ReviewWorkspaceView.as_view(),
+        name='review-workspace',
+    ),
+    path(
+        'api/review-workspace/<uuid:entity_id>/decide/',
+        views.SubmitReviewDecisionView.as_view(),
+        name='submit-review-decision',
+    ),
+    path(
+        'api/reviewer-dashboard/',
+        views.ReviewerDashboardView.as_view(),
+        name='reviewer-dashboard',
+    ),
+
+    # Revision diff endpoint
+    path(
+        'api/entities/<uuid:entity_id>/diff/',
+        views.RevisionDiffView.as_view(),
+        name='revision-diff',
+    ),
+
+    # Entity comments (threaded, with reactions)
+    path(
+        'api/entities/<uuid:entity_id>/comments/',
+        views.EntityCommentViewSet.as_view({'get': 'list', 'post': 'create'}),
+        name='entity-comments',
+    ),
+    path(
+        'api/entities/<uuid:entity_id>/comments/<int:pk>/',
+        views.EntityCommentViewSet.as_view({'get': 'retrieve', 'put': 'update', 'delete': 'destroy'}),
+        name='entity-comment-detail',
+    ),
+    
+    # Legacy API endpoints (consider migrating these to ViewSets over time)
+    path("api/submissions/", views.SubmissionListView.as_view(), name="submission-list"),
+    path(
+        "api/submissions/<str:submission_id>/",
         views.SubmissionDetailView.as_view(),
         name="submission-detail",
     ),
     path(
-        "form-submit/", views.FormSubmissionAPIView.as_view(), name="create_submission"
+        "api/form-submit/", views.FormSubmissionAPIView.as_view(), name="create_submission"
     ),
     path(
-        "moderation/<int:pk>/",
+        "api/moderations/<int:pk>/",
         views.ModerationReviewView.as_view(),
         name="moderation-review",
     ),
-    # path('auth/users/me/', views.CustomUserMeView.as_view(), name='user-me'),
-    path("activity-logs/", views.ActivityLogView.as_view(), name="activity-logs"),
+    path("api/activity-logs/", views.ActivityLogView.as_view(), name="activity-logs"),
+    path("api/leaderboard/", views.LeaderboardView.as_view(), name="leaderboard-legacy"),
     path("leaderboard/", views.LeaderboardView.as_view(), name="leaderboard"),
-    path("personal-stats/", views.PersonalStatsView.as_view(), name="personal-stats"),
-    # path('user/<str:username>/', views.UserDetailView.as_view(), name='user-detail'),
+    path("api/personal-stats/", views.PersonalStatsView.as_view(), name="personal-stats"),
+    path("api/progression/", views.ProgressionView.as_view(), name="progression"),
+    
     # Comment URLs
     path(
-        "comments/", views.CommentListCreateView.as_view(), name="comment-list-create"
+        "api/comments/", views.CommentListCreateView.as_view(), name="comment-list-create"
     ),
     path(
-        "comments/<str:pk>/", views.CommentDetailView.as_view(), name="comment-detail"
+        "api/comments/<str:pk>/", views.CommentListCreateView.as_view(), name="comment-detail"
     ),
-    # path('submission/form/create/', create_submission, name="Formm submission")
-    # submission edit suggestion URLs here
+    
+    # submission edit suggestion URLs
     path(
-        "submission-suggestions/",
+        "api/submission-suggestions/",
         views.SubmissionSuggestionViewSet.as_view({"post": "create"}),
         name="submission-suggestion-create",
     ),
     path(
-        "submission-suggestions/<int:pk>/approve/",
+        "api/submission-suggestions/<int:pk>/approve/",
         views.SubmissionSuggestionViewSet.as_view({"post": "approve"}),
         name="submission-suggestion-approve",
     ),
     path(
-        "submission-suggestions/<int:pk>/reject/",
+        "api/submission-suggestions/<int:pk>/reject/",
         views.SubmissionSuggestionViewSet.as_view({"post": "reject"}),
         name="submission-suggestion-reject",
     ),
     path(
-        "submissions/<str:submission_id>/versions/",
+        "api/submissions/<str:submission_id>/versions/",
         views.SubmissionVersionListView.as_view(),
         name="submission-versions-list",
     ),
     path(
-        "submissions/<str:submission_id>/edit-suggestions",
+        "api/submissions/<str:submission_id>/edit-suggestions",
         views.SubmissionEditSuggestionListView.as_view(),
         name="submission-edit-suggestions-list",
     ),
     path(
-        "submissions/ids", views.SubmissionIdListView.as_view(), name="submission_ids"
+        "api/submissions/ids", views.SubmissionIdListView.as_view(), name="submission_ids"
     ),
-    path("testthelogin", views.UserViewSet.as_view({"get": "list"}), name="user-list"),
-    path("user-stats/", views.UserStatsAPIView.as_view(), name="user-stats"),
-    # test
-    path("testme/", views.TestView.as_view(), name="Test this for auth health"),
+    path("api/testthelogin", views.UserViewSet.as_view({"get": "list"}), name="user-list"),
+    path("api/user-stats/", views.UserStatsAPIView.as_view(), name="user-stats"),
+    
+    # test endpoints
+    path("api/testme/", views.TestView.as_view(), name="Test this for auth health"),
+    
     # user details
     path(
-        "user/<str:username>/",
+        "api/user/<str:username>/",
         views.UserProfileDetail.as_view(),
         name="user-profile-detail",
     ),
+    # profile image upload
+    path(
+        "api/user/profile-image/",
+        views.UserProfileImageView.as_view(),
+        name="user-profile-image",
+    ),
+
+    # ── i18n / Bikram Sambat endpoints ──────────────────────────────────────
+    path("api/i18n/locale-info/", locale_info, name="locale-info"),
+    path("api/i18n/convert-date/", convert_date, name="convert-date"),
 ]

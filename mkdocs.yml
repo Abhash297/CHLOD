@@ -1,0 +1,70 @@
+site_name: HeritageGraph Documentation
+site_description: Documentation for contributors, developers, API users, partners, and AI integrations
+site_author: CAIR-Nepal
+repo_name: heritagegraph
+repo_url: https://github.com/CAIRNepal/heritagegraph
+theme:
+  name: material
+  language: en
+  logo: images/logo.png
+  favicon: images/favicon.ico
+  custom_dir: overrides
+plugins:
+  - search
+  - i18n:
+      docs_structure: folder
+      languages:
+        - locale: en
+          name: English
+          default: true
+          build: true
+        - locale: ne
+          name: नेपाली
+          build: true
+  - awesome-pages
+nav:
+  - Home: en/index.md
+  - Getting Started:
+    - Overview: en/getting-started/index.md
+    - Quickstart: en/getting-started/quickstart.md
+    - Project overview: en/getting-started/project-overview.md
+    - Architecture (summary): en/getting-started/architecture.md
+    - Architecture (full): en/getting-started/architecture-full.md
+  - Guides:
+    - Contributors: en/guides/contributors/index.md
+    - Reviewers: en/guides/reviewers/index.md
+    - Developers:
+      - Overview: en/guides/developers/index.md
+      - Authentication: en/guides/developers/authentication.md
+      - Contributing: en/guides/developers/contributing.md
+      - Conventions: en/guides/developers/conventions.md
+      - Forms system: en/guides/developers/forms-system.md
+    - Institutional Partners: en/guides/institutional/index.md
+  - API:
+    - Overview: en/api/index.md
+    - Reference: en/api/reference.md
+  - AI Integrations:
+    - Overview: en/ai-integrations/index.md
+    - Agent guide: en/ai-integrations/agent-guide.md
+  - Deployment:
+    - Production: en/deployment/production.md
+  - Reference:
+      - Conventions: en/reference/conventions.md
+      - Forms system: en/reference/forms-system.md
+      - Ontology: en/reference/ontology.md
+      - Skills matrix: en/reference/skills-matrix.md
+      - Translation workflow: en/reference/translation-workflow.md
+      - Troubleshooting: en/reference/troubleshooting.md
+  - About:
+    - Roadmap: en/about/roadmap.md
+    - License: en/about/license.md
+  - नेपाली:
+    - होम: ne/index.md
+    - सुरु गर्ने तरिका:
+      - परियोजना अवलोकन: ne/getting-started/project-overview.md
+    - योगदानकर्ताहरू:
+      - मार्गदर्शन: ne/guides/contributors/index.md
+      - डाटा पठाउने: ne/guides/contributors/submitting-data.md
+      - फर्महरू प्रयोग गर्ने: ne/guides/contributors/using-forms.md
+      - समीक्षा बुझ्ने: ne/guides/contributors/understanding-review.md
+  - Translation status: translation-status.md
